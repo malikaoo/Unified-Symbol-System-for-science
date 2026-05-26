@@ -1,0 +1,80 @@
+UNIFIED SYMBOL SYSTEM (USS) LICENSE
+Version 1.1 — 2026-05-25
+
+Copyright (c) 2026 Tarek Mohammed Nasser
+All rights reserved.
+
+1. DEFINITIONS
+
+   "Specification" means the USS grammar rules, EBNF definition, token format
+   conventions, case-based taxonomy, and encoding methodology described in the
+   accompanying project report.
+
+   "Database" means any curated collection of USS-encoded equations, symbols,
+   registries, or dependency graphs derived from this project.
+
+   "Implementation" means any software, parser, API, or tool that implements
+   the USS Specification.
+
+2. SPECIFICATION USAGE (Permissive)
+
+   The USS Specification may be referenced, discussed, and used for academic
+   research, educational purposes, and standardization proposals without charge,
+   provided that:
+
+   a) Proper attribution is given to Tarek Mohammed Nasser as the original author.
+   b) Any derivative specification clearly states it is based on USS.
+   c) The Specification is not misrepresented as an open standard or public domain.
+
+3. DATABASE & REGISTRY USAGE (Restricted)
+
+   The USS Symbol Registry, Core Equation Database, and any curated content
+   derived from this project are proprietary. Use, reproduction, distribution,
+   or incorporation into commercial products requires explicit written permission
+   from the copyright holder.
+
+   Academic institutions may request limited access for non-commercial research
+   subject to a signed academic use agreement.
+
+4. IMPLEMENTATION LICENSING
+
+   Software implementations of the USS Specification are subject to separate
+   licensing terms. Contact the author for:
+
+   a) Open-source implementation licenses (academic/non-profit)
+   b) Commercial implementation licenses
+   c) Enterprise integration licenses
+
+5. NO WARRANTY
+
+   THE SPECIFICATION AND ALL ASSOCIATED MATERIALS ARE PROVIDED "AS IS", WITHOUT
+   WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+   WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+   NON-INFRINGEMENT.
+
+6. ATTRIBUTION
+
+   All publications, presentations, or implementations referencing USS must include
+   the following citation:
+
+   Tarek Mohammed Nasser. "Unified Symbol System (USS) for All Sciences:
+   Project Overview and Implementation Strategy." v1.1, 2026.
+
+7. GOVERNANCE
+
+   The symbol registry governance protocol will be established upon completion
+   of Phase 0 (Months 1–2). Until then, all registry decisions are made by the
+   copyright holder.
+
+8. CONTACT
+
+   For licensing, collaboration, or governance inquiries:
+
+   Tarek Mohammed Nasser
+   Email: malikao@gmail.com
+
+---
+
+By accessing, referencing, or using any materials in this repository, you
+acknowledge that you have read, understood, and agree to be bound by the terms
+of this License.
