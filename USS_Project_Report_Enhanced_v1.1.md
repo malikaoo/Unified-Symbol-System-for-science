@@ -1,9 +1,11 @@
+
+
 # Unified Symbol System (USS) for All Sciences
 ## Project Overview and Implementation Strategy
 
 **Author:** Tarek Mohammed Nasser  
 **Email:** malikao@gmail.com  
-**Version:** 1.1 (Enhanced)  
+**Version:** 1.4 (Enhanced & Corrected)  
 **Date:** 2026-05-25
 
 ---
@@ -20,7 +22,12 @@ For humans, context resolves ambiguity. For LLMs and databases, ambiguity is poi
 
 Build a **machine-first symbolic language** where every concept, constant, variable, and operator has exactly one unique token. The token is machine-parseable, SQL-storable, and branch-agnostic. A physics equation using group theory keeps the math-origin prefix. A chemistry equation using entropy keeps the physics-origin prefix. No context is needed to disambiguate.
 
-The format is strict: four letters between single underscores. The first letter locks the origin branch. Uppercase for terms and constants. Lowercase for variables. Non-letter operators remain unchanged but use under certain classification. No overloading. No font decorations. No subscript disambiguation.
+The format is strict: exactly four letters between single underscores. The first letter locks the origin branch. Uppercase for terms, constants, and operators. Lowercase for variables and indices. Non-letter operators remain unchanged but use under certain classification. 
+
+To eliminate the historical ambiguities of scientific notation, USS enforces three strict prohibitions:
+- **No overloading:** No same symbol used for multiple meanings (e.g., `d` cannot be both differential and variable).
+- **No font decorations.** 
+- **No subscript disambiguation.**
 
 ---
 
@@ -47,23 +54,99 @@ A system where:
 ## 5. The Explanation
 
 ### 5.1 Why Four Letters?
-
-Three letters is not enough namespace for all of science. Five letters is too verbose for tokenization. Four is the sweet spot: 26^4 = 456,976 possible codes per branch, enough to encode every concept in every discipline for centuries.
+Three letters is not enough namespace for all of science. Five letters is too verbose for tokenization. Four is the sweet spot: 26^4 = 456,976 possible codes per branch, enough to encode every concept in every discipline for centuries. **This rule is absolute: exactly four letters must exist between the enclosing underscores.**
 
 ### 5.2 Why the Underscore?
-
-The underscore encloses the token and marks it as **atomic**. `_MDER_` is one symbol, not four characters multiplied together. This prevents parsing ambiguity that plagues traditional notation.
+The underscore encloses the token and marks it as **atomic**. `_MDER_` is one symbol, not four characters multiplied together. This prevents parsing ambiguity that plagues traditional notation. Outside tokens, an underscore denotes subscript in rendered output.
 
 ### 5.3 Why Branch Prefixes?
-
 When physics uses group theory, it writes `_MGRP_`, not `_PGRP_`. The symbol carries its genealogy. Cross-branch consistency is enforced by rule, not by convention. This is one of the project aims that will make predicting new equations or meanings possible.
 
 ### 5.4 Why Machine-First?
-
 Humans can tolerate ambiguity. Machines cannot. A database query for "all equations using eigenvalues" must find `_MEIG_` reliably, not miss it because a textbook used `λ` or `lambda` or `eigenval`. LLM agents must follow strict output constraints, not generate creative approximations. In the future we can easily make the output from AI in the old fashion via a translator.
 
-### 5.5 Formal Grammar Specification
+### 5.5 The Core Anatomy of a USS Symbol
+Every concept, constant, variable, and operator has exactly one unique token. 
+**Visual Breakdown:** `_ [Branch Prefix] [3 Identifier Letters] _`
+- **The Underscore:** Encloses the token, marking it as atomic.
+- **The Branch Prefix (1st letter):** Locks the origin branch (`M`=Math, `P`=Physics, `C`=Chemistry, `B`=Biology, `E`=Engineering, `U`=Units, `G`=General).
+- **The Three Letters (2nd-4th letters):** Identify the specific concept. Case dictates whether it is a known term/constant/operator or an unknown variable.
 
+### 5.6 Symbols for Terms, Constants, and Operators (Uppercase)
+Uppercase letters are used for defined terms, fixed constants, and named operators.
+- **Rule:** `_` + Uppercase Branch + 3 Uppercase Letters + `_`
+- **Mnemonic Mapping:** The final 1-3 letters should correspond to the traditional symbol's name or phonetics.
+- **Examples:**
+  - `_MCPI_` = π (Math Constant Pi)
+  - `_MCBL_` = Boltzmann constant (Math Constant BoLtzmann)
+  - `_MCHB_` = ℏ (Math Constant H-Bar)
+  - `_MCIM_` = Imaginary unit *i* (Math Constant IMaginary)
+  - `_MSIN_` = sine (Math Operator Sine)
+  - `_MLIM_` = limit (Math Operator Limit)
+  - `_MDET_` = determinant (Math Operator DETerminant)
+  - `_MDER_` = derivative (Math Operator DERivative)
+  - `_MSQT_` = square root (Math Operator SQuare RooT)
+  - `_MMNS_` = minus/negative (Math Operator MiNuS)
+  - `_MPMN_` = plus-minus (Math Operator Plus-MiNus)
+  - `_MGRP_` = group (Math Term GRouP)
+  - `_MCIF_` = ∞ (Math Constant InFinity)
+  - `_MCES_` = ∅ (Math Constant Empty Set)
+  - `_MCEP_` = ε₀ (Math Constant EPsilon)
+  - `_POHM_` = Hamiltonian operator (Physics Operator HaMiltonian)
+
+### 5.7 Symbols for Variables and Indices (Lowercase)
+Lowercase letters are used for variables, unknowns, and dummy indices.
+- **Rule:** `_` + Lowercase Branch + 3 Lowercase Letters + `_`
+- **Mnemonic Mapping:** The final letter of the 3-letter sequence must correspond to the traditional variable's Roman letter, closest phonetic equivalent, or standard abbreviation.
+- **Examples:**
+  - `_mvar_` = generic variable
+  - `_mvrx_` = variable $x$
+  - `_mvry_` = variable $y$
+  - `_mvra_` = variable $A$ (or $a$)
+  - `_mvrb_` = variable $B$ (or $b$)
+  - `_mvrc_` = variable $C$ (or $c$)
+  - `_mvrf_` = variable/function $f$
+  - `_mvrg_` = variable/function $g$
+  - `_mvrm_` = variable mass ($m$)
+  - `_pvrp_` = variable Psi ($\Psi \rightarrow$ p phonetic)
+  - `_pvrr_` = variable Rho ($\rho \rightarrow$ r phonetic) or radius ($r$)
+  - `_pvre_` = variable Electric field ($E \rightarrow$ e)
+  - `_pvrt_` = variable time ($t$)
+  - `_midi_` = index $i$
+  - `_midj_` = index $j$
+  - `_midk_` = index $k$
+  - `_midn_` = index $n$
+
+### 5.8 Enumeration and Subscript Replacement
+Because USS prohibits subscript disambiguation, enumerated variables (like $x_1, A_{i,j}$) must use the EBNF's bracket syntax for enumeration, attached to the specific variable token:
+- $x_1 \rightarrow$ `_mvrx_[1]`
+- $x_n \rightarrow$ `_mvrx_[_midn_]`
+- $A_{i,j} \rightarrow$ `_mvra_[_midi_, _midj_]` (Notice the 'a' in `_mvra_` captures the base variable $A$)
+
+### 5.9 Diacritical, Functional, and Structural Operators
+Because USS prohibits font decorations, diacritical marks (hats, dots, bars, vectors) are applied as generic modifier operator tokens:
+- `_MHAT_(_mvrx_)` = $\hat{x}$
+- `_MDOT_(_mvrx_)` = $\dot{x}$ (time derivative)
+- `_MBAR_(_mvrx_)` = $\bar{x}$ (mean or complex conjugate)
+- `_MVEC_(_pvre_)` = $\vec{E}$ (vector modifier applied to variable E)
+
+To evaluate functions and structure sets/matrices, USS uses standard parentheses for function application and structural punctuation:
+- Function application: `_mvrf_(_mvrx_)` = $f(x)$
+- Sets: `{` `}` for Sets: `_MSET_{_mvrx_ | _mvrx_ > 0}`
+- `|` or `:` for "such that" in set builders
+- `[;]` for Matrix row separation: `_TMAT_[_mvra_, _mvrb_ ; _mvrc_, _mvrd_]`
+
+### 5.10 Explicit List of Non-Letter Operators by Category
+
+| Category | Operators |
+|----------|-----------|
+| **Arithmetic** | `+`, `-`, `*`, `/`, `^`, `_` |
+| **Relation** | `=`, `!=`, `<`, `>`, `<=`, `>=` |
+| **Calculus** | `∂`, `∫`, `∇`, `∑`, `∏` |
+| **Logic** | `∧`, `∨`, `¬`, `→`, `↔` |
+| **Punctuation** | `,`, `;`, `{`, `}`, `|`, `:` |
+
+### 5.11 Formal Grammar Specification
 To ensure true machine-parseability, USS defines a formal grammar in Extended Backus-Naur Form (EBNF):
 
 ```ebnf
@@ -73,12 +156,16 @@ definition      ::= uss_token "::=" expression [ ";" domain ]
 axiom           ::= "AXIOM" uss_token ";" expression
 
 expression      ::= term { operator term }
-term            ::= uss_token | number | group | indexed_term
+term            ::= uss_token | number | group | indexed_term | set_term | matrix_term | func_eval
 group           ::= "(" expression ")"
+func_eval       ::= uss_token "(" expression { "," expression } ")"
 indexed_term    ::= uss_token "[" index_list "]"
 index_list      ::= index { "," index }
 index           ::= uss_token | number | range
 range           ::= number ".." number
+set_term        ::= "{" expression [ "|" | ":" expression ] "}"
+matrix_term     ::= "[" matrix_row { ";" matrix_row } "]"
+matrix_row      ::= expression { "," expression }
 
 uss_token       ::= "_" branch_prefix three_letters "_"
 branch_prefix   ::= "M" | "P" | "C" | "B" | "E" | "U" | "G"
@@ -87,11 +174,12 @@ letter          ::= "A" .. "Z" | "a" .. "z"
 number          ::= digit { digit } [ "." digit { digit } ]
 digit           ::= "0" .. "9"
 
-operator        ::= arithmetic | relation | calculus | logic
+operator        ::= arithmetic | relation | calculus | logic | punctuation
 arithmetic      ::= "+" | "-" | "*" | "/" | "^" | "_"
 relation        ::= "=" | "!=" | "<" | ">" | "<=" | ">="
 calculus        ::= "∂" | "∫" | "∇" | "∑" | "∏"
 logic           ::= "∧" | "∨" | "¬" | "→" | "↔"
+punctuation     ::= "," | ";" | "{" | "}" | "|" | ":"
 
 condition       ::= expression [ relation expression ]
 domain          ::= branch_prefix ":" description
@@ -99,44 +187,38 @@ description     ::= { letter | digit | " " | "-" }
 ```
 
 **Key constraints enforced by the grammar:**
-- Every `_XXXX_` token must be registered in the Symbol Registry before appearing in any equation
-- Index brackets `[]` are reserved for tensor indices and summation bounds only
-- The underscore `_` inside tokens is part of the token; outside tokens it denotes subscript in rendered output
-- Operator precedence follows standard mathematical conventions (parentheses > exponents > multiplication/division > addition/subtraction)
+- Every `_XXXX_` token must be exactly four letters between underscores and registered in the Symbol Registry before appearing in any equation.
+- Index brackets `[]` are reserved for tensor indices, summation bounds, and variable enumeration only.
+- Operator precedence follows standard mathematical conventions (parentheses > exponents > multiplication/division > addition/subtraction).
 
-### 5.6 Type System and Taxonomy
+### 5.12 Type System and Taxonomy
+USS enforces a formal type lattice to prevent semantic errors at the parsing stage. Type tokens use the `T` branch prefix for strict 4-letter compliance:
 
-USS enforces a formal type lattice to prevent semantic errors at the parsing stage:
+| Type Category | USS Token | Description |
+|---------------|-----------|-------------|
+| **Scalar** | `_TSCL_` | Single numerical or logical value |
+| **Vector** | `_TVEC_` | Ordered tuple with dimension |
+| **Matrix** | `_TMAT_` | Rank-2 tensor with shape |
+| **Tensor** | `_TTEN_` | Rank-N tensor with explicit shape |
+| **Function** | `_TFUN_` | Mapping with arity and signature |
+| **Operator** | `_TOPR_` | Higher-order mapping |
+| **Constant** | `_TCON_` | Fixed universal value |
+| **Index** | `_TIDX_` | Dummy or bound index |
 
-| Type Category | USS Prefix | Examples | Description |
-|---------------|------------|----------|-------------|
-| **Scalar** | `_var_` | `_var_`, `_cplx_`, `_bool_` | Single numerical or logical value |
-| **Vector** | `_vec_` | `_vec3_`, `_vecn_` | Ordered tuple with dimension |
-| **Matrix** | `_mat_` | `_mat2_`, `_matn_` | Rank-2 tensor with shape |
-| **Tensor** | `_ten_` | `_ten3_`, `_ten4_` | Rank-N tensor with explicit shape |
-| **Function** | `_fun_` | `_fun1_`, `_fun2_` | Mapping with arity and signature |
-| **Operator** | `_opr_` | `_opdr_`, `_opli_` | Higher-order mapping |
-| **Constant** | `_con_` | `_conp_`, `_conb_` | Fixed universal value |
-| **Index** | `_idx_` | `_idxi_`, `_idxj_` | Dummy or bound index |
-
-**Tensor Index Notation:**
-
-For tensor operations such as Einstein summation, USS uses explicit index annotation within brackets:
-
-- Covariant index: `_ten2_[_idxi_,_idxj_]` (default, no marker)
-- Contravariant index: `_ten2_[^idxi_,_idxj_]` (caret prefix)
-- Summation convention: repeated indices in a single term imply summation
-- Example: `A^i_j B^j_k` in standard notation becomes `_ten2_[^idxi_,_idxj_] * _ten2_[_idxj_,_idxk_]`
-
-This preserves the power of index notation while maintaining explicit, machine-parseable structure.
-
-### 5.7 Case-Based Disambiguation Rules
+### 5.13 Case-Based Disambiguation Rules
 
 | Case Pattern | Meaning | Example |
 |--------------|---------|---------|
-| `_MXXX_` (all uppercase) | Constant or defined term | `_MPI_` = π, `_MBOL_` = Boltzmann constant |
-| `_mxxx_` (all lowercase) | Variable or unknown | `_mvar_` = generic variable, `_midx_` = index variable |
-| `_MxXx_` (mixed) | Reserved for future structured tokens | Not used in v1.1 |
+| `_MXXX_` (all uppercase) | Constant, defined term, or operator | `_MCPI_` = π, `_MSIN_` = sine |
+| `_mxxx_` (all lowercase) | Variable or index | `_mvrx_` = variable x, `_midi_` = index i |
+| `_MxXx_` (mixed) | Reserved for future structured tokens | Not used in v1.4 |
+
+### 5.14 Tensor Index Notation
+For tensor operations such as Einstein summation, USS uses explicit index annotation within brackets using registered lowercase index tokens:
+- Covariant index: `_mvra_[_midi_,_midj_]` (default, no marker)
+- Contravariant index: `_mvra_[^midi_,_midj_]` (caret prefix)
+- Summation convention: repeated indices in a single term imply summation
+- Example: $A^i_j B^j_k$ in standard notation becomes `_mvra_[^midi_,_midj_] * _mvrb_[_midj_,_midk_]`
 
 ---
 
@@ -168,18 +250,16 @@ USS is not the first attempt to formalize scientific notation. We position again
 **What it does:** Open-source Python library for symbolic mathematics.  
 **Why USS differs:** SymPy uses Python objects for representation; USS uses a language-agnostic token system designed for database storage and cross-platform interoperability.
 
-**USS's Core Innovation:** The combination of (1) fixed-length branch-prefixed tokens, (2) formal EBNF grammar, (3) SQL-native storage, and (4) locked registry governance creates a system that is simultaneously machine-tractable, human-readable (with translation), and scientifically rigorous.
+**USS's Core Innovation:** The combination of (1) strictly enforced fixed-length 4-letter branch-prefixed tokens with mnemonic mapping, (2) explicit enumeration and diacritical operator rules, (3) formal EBNF grammar, (4) SQL-native storage, and (5) locked registry governance creates a system that is simultaneously machine-tractable, human-readable (with translation), and scientifically rigorous.
 
 ---
 
 ## 7. The Methods
 
 ### Phase 0: Symbol Registry Lock
-
-Before any equation is stored, define and lock the complete symbol vocabulary. Variables (`_mvar_`, `_midx_`), letter-operators (`_MSIN_`, `_MLIM_`, `_MDET_`), constants (`_MKPI_`, `_MBOL_`, `_MLGT_`), and non-letter operators (`+`, `∫`, `◊`) are loaded into a production SQL table with status `locked`. No LLM agent may write new symbols without passing through a human-reviewed request queue.
+Before any equation is stored, define and lock the complete symbol vocabulary. Variables (`_mvrx_`, `_midi_`), letter-operators (`_MSIN_`, `_MLIM_`, `_MDET_`), constants (`_MCPI_`, `_MCBL_`), diacritical operators (`_MHAT_`, `_MDOT_`), and non-letter operators (`+`, `∫`) are loaded into a production SQL table with status `locked`. No LLM agent may write new symbols without passing through a human-reviewed request queue.
 
 ### Phase 1: Core Equation Harvesting via LLM Agents
-
 Instead of scraping LaTeX from thousands of sources, use an LLM agent as a **knowledgeable professor**. The agent is prompted to list the fundamental equations of a specific domain — calculus, linear algebra, topology — in structured JSON format. Each response includes the equation name, standard LaTeX, boundary conditions, and domain of validity.
 
 The LLM is not trusted blindly. Every batch is verified:
@@ -190,21 +270,17 @@ The LLM is not trusted blindly. Every batch is verified:
 This method builds the **1,000-equation core** rapidly. It does not attempt completeness; it builds the foundation.
 
 ### Phase 2: USS Translation and Storage
-
-A translation agent maps the verified LaTeX into USS notation using the locked symbol registry. The mapping is deterministic: `sin` → `_MSIN_`, `x` → `_mvar_`, `lim` → `_MLIM_`. Context-dependent disambiguation (e.g., `d` as differential vs. dimension) is handled by explicit rules, not by model inference.
+A translation agent maps the verified LaTeX into USS notation using the locked symbol registry. The mapping is deterministic: `sin` → `_MSIN_`, `x` → `_mvrx_`, `lim` → `_MLIM_`. Context-dependent disambiguation (e.g., `d` as differential vs. dimension) is handled by explicit rules forcing distinct tokens, not by model inference.
 
 Translated equations enter a **staging** database first. A verifier agent checks syntax, symbol consistency, and structural correctness. Only after passing verification does an equation move to **production**.
 
 ### Phase 3: Deduplication and Dependency Linking
-
 A curator agent computes a canonical hash (SHA-256) of every USS equation. If the same theorem appears in multiple sources, only one production row is created; additional sources are stored as citations. A dependency graph links every theorem to its prerequisites, creating a traversable knowledge structure.
 
 ### Phase 4: Proof Engine Integration
-
 With the core database locked, a symbolic manipulation engine loads relevant equation subgraphs into memory. It performs substitution, pattern matching, and simplification using the dependency graph as guardrails. New derivations are verified against the axioms and core theorems before being committed as `derivation_status='cached'`.
 
 ### Phase 5: Cross-Branch Expansion
-
 Physics, chemistry, and biology branches are added using the same pipeline. Shared terms keep their origin prefix. Physics-specific terms use the `P` prefix. The symbol registry grows, but the rules remain unchanged.
 
 ---
@@ -236,7 +312,7 @@ From this, the system can derive standard identities on demand.
 ## 10. The Quality Gates
 
 No equation enters production without passing:
-1. **Syntactic check**: USS form parses correctly against the EBNF grammar; all tokens are registered
+1. **Syntactic check**: USS form parses correctly against the EBNF grammar; all tokens are exactly 4-letters and registered
 2. **Semantic check**: Original LaTeX and USS form are mathematically equivalent (verified by symbolic comparison)
 3. **Deduplication check**: SHA-256 hash does not already exist in production
 4. **Dependency check**: Prerequisite definitions and theorems exist in the database
@@ -250,7 +326,7 @@ No equation enters production without passing:
 
 | Deliverable | Specification |
 |-------------|---------------|
-| **Symbol Registry** | ~2,000 locked symbols with definitions, domains, and branch origins |
+| **Symbol Registry** | ~2,000 locked 4-letter symbols with definitions, domains, and branch origins |
 | **Core Database** | ~1,000 verified equations across 10 mathematical domains |
 | **Dependency Graph** | Self-referencing prerequisite links between equations |
 | **Provenance Records** | Every equation traced to at least one trusted source |
@@ -278,7 +354,6 @@ No equation enters production without passing:
 Beside each added equation we should have its standard units. Later on we also check the derivations and the new predictions by checking their units result. Also making manipulating and predicting methods using the units plus the equations patterns alone or with the symbols could serve the discovering aim of the project.
 
 ### 13.1 Unit Tokens
-
 Units are first-class symbols with the `U` branch prefix:
 
 | Physical Quantity | USS Token | SI Unit |
@@ -295,22 +370,17 @@ Units are first-class symbols with the `U` branch prefix:
 | Pressure | `_UPRS_` | pascal (Pa) |
 
 ### 13.2 Dimensional Analysis Engine
-
 Every equation in the database carries a `dimensional_signature` field. The engine automatically verifies dimensional consistency:
-
-- **Energy example**: `_PENE_` must have units `[_UMAS_][ULEN]^2[UTIM]^-2` in every equation where it appears
-- **Velocity example**: `_PVEL_` must have units `[_ULEN_][UTIM]^-1`
+- **Energy example**: `_PENE_` must have units `[_UMAS_][_ULEN_]^2[_UTIM_]^-2` in every equation where it appears
+- **Velocity example**: `_PVEL_` must have units `[_ULEN_][_UTIM_]^-1`
 - **Inconsistency flag**: If an equation's dimensional signature does not balance, it is rejected from production
 
 ### 13.3 Unit Conversion Graph
-
 Conversion factors between unit systems are stored as equations in the database:
-
 ```
 _UMET_ = 1609.344 * _ULEN_    ; meter to mile conversion
 _UFAH_ = _UTMP_ * 9/5 - 459.67 ; kelvin to fahrenheit
 ```
-
 This makes unit transformation part of the symbolic engine, not an external lookup table.
 
 ---
@@ -319,7 +389,7 @@ This makes unit transformation part of the symbolic engine, not an external look
 
 The USS specification, symbol registry, database schema, and implementation are original work. Copyright is asserted. The system is not released under an open-source license. Usage requires explicit permission.
 
-The underlying idea of a unified scientific notation is not new — Leibniz dreamed of it centuries ago. But the specific engineering choices (four-letter underscore-delimited tokens, branch-prefix namespace, case-based taxonomy, anti-overloading rules, formal EBNF grammar, SQL-native storage) constitute a novel implementation.
+The underlying idea of a unified scientific notation is not new — Leibniz dreamed of it centuries ago. But the specific engineering choices (strictly enforced 4-letter underscore-delimited tokens, branch-prefix namespace, case-based taxonomy, explicit overloading prohibitions, diacritical operator replacement, formal EBNF grammar, SQL-native storage) constitute a novel implementation.
 
 **Recommended IP Strategy:**
 - **Open specification**: Release the USS grammar, encoding rules, and EBNF definition as an open standard (like Unicode) to drive adoption and network effects
@@ -356,21 +426,20 @@ The system will be verified against the following quantitative benchmarks:
 | **Round-trip test** | LaTeX → USS → LaTeX produces semantically equivalent output | Symbolic comparison using SymPy on random sample |
 | **Dependency test** | Zero dangling references in production database | Graph traversal verification; every prerequisite must exist |
 | **Dimensional test** | 100% of production equations pass unit consistency | Automated dimensional analysis engine on every equation |
-| **Registry test** | Zero unregistered tokens in production | Token lookup against locked registry on every equation |
+| **Registry test** | Zero unregistered tokens or improperly sized tokens in production | Token lookup against locked registry on every equation |
 
 ---
 
 ## 17. Database Schema
 
 ### 17.1 Symbols Table
-
 ```sql
 CREATE TABLE symbols (
     uss_token VARCHAR(6) PRIMARY KEY,  -- _XXXX_
     latex_equiv TEXT NOT NULL,
     unicode_char TEXT,
     branch CHAR(1) NOT NULL,
-    category VARCHAR(20) NOT NULL,  -- 'constant', 'variable', 'operator', 'unit', 'tensor'
+    category VARCHAR(20) NOT NULL,  -- 'constant', 'variable', 'operator', 'unit', 'tensor', 'diacritic'
     domain TEXT,  -- mathematical domain of applicability
     dimensional_signature TEXT,  -- for constants and units
     description TEXT,
@@ -381,7 +450,6 @@ CREATE TABLE symbols (
 ```
 
 ### 17.2 Equations Table
-
 ```sql
 CREATE TABLE equations (
     eq_id UUID PRIMARY KEY,
@@ -403,7 +471,6 @@ CREATE TABLE equations (
 ```
 
 ### 17.3 Dependencies Table
-
 ```sql
 CREATE TABLE dependencies (
     eq_id UUID REFERENCES equations(eq_id),
@@ -438,27 +505,25 @@ The 1,000-equation core is scoped as follows:
 ---
 
 ## 19. Pilot Examples: USS Encoded Equations
+*(Note: All tokens strictly adhere to the 4-letter rule, variables are strictly lowercase, constants/operators are uppercase, and specific variable letters/phonetics are preserved).*
 
 ### Example 1: The Quadratic Formula
-
 **Original LaTeX:**
 ```latex
 x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 ```
-
 **USS Encoding:**
 ```
-_mvar_ = (_mvar_b_ * _MMNS_ + _MSQT_(_mvar_b_ ^ 2 _MMNS_ 4 * _mvar_a_ * _mvar_c_)) / (2 * _mvar_a_)
-; _mvar_a_ != 0
+_mvrx_ = ( _MMNS_ _mvrb_ _MPMN_ _MSQT_(_mvrb_ ^ 2 _MMNS_ 4 * _mvra_ * _mvrc_) ) / ( 2 * _mvra_ )
+; _mvra_ != 0
 ```
-
 **Database Entry:**
 ```json
 {
   "eq_id": "550e8400-e29b-41d4-a716-446655440000",
   "name": "Quadratic Formula",
-  "uss_form": "_mvar_ = (_mvar_b_ * _MMNS_ + _MSQT_(_mvar_b_ ^ 2 _MMNS_ 4 * _mvar_a_ * _mvar_c_)) / (2 * _mvar_a_)",
-  "latex_form": "x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}",
+  "uss_form": "_mvrx_ = ( _MMNS_ _mvrb_ _MPMN_ _MSQT_(_mvrb_ ^ 2 _MMNS_ 4 * _mvra_ * _mvrc_) ) / ( 2 * _mvra_ )",
+  "latex_form": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
   "origin_branch": "M",
   "mathematical_domain": "Algebra",
   "dimensional_signature": "dimensionless",
@@ -468,53 +533,50 @@ _mvar_ = (_mvar_b_ * _MMNS_ + _MSQT_(_mvar_b_ ^ 2 _MMNS_ 4 * _mvar_a_ * _mvar_c_
 ```
 
 ### Example 2: Newton's Second Law
-
 **Original LaTeX:**
 ```latex
 \vec{F} = m \vec{a}
 ```
-
 **USS Encoding:**
 ```
-_vec_F_ = _mvar_m_ * _vec_a_
-; _mvar_m_ > 0
+_MVEC_(_pvrf_) = _mvrm_ * _MVEC_(_pvra_)
+; _mvrm_ > 0
 ```
+*(Where `_pvrf_` is Physics Variable FoRce [F], `_mvrm_` is Math Variable Mass [m], and `_pvra_` is Physics Variable Acceleration [a])*
 
 **Database Entry:**
 ```json
 {
   "eq_id": "550e8400-e29b-41d4-a716-446655440001",
   "name": "Newton's Second Law",
-  "uss_form": "_vec_F_ = _mvar_m_ * _vec_a_",
-  "latex_form": "\vec{F} = m \vec{a}",
+  "uss_form": "_MVEC_(_pvrf_) = _mvrm_ * _MVEC_(_pvra_)",
+  "latex_form": "\\vec{F} = m \\vec{a}",
   "origin_branch": "P",
   "mathematical_domain": "Classical Mechanics",
-  "dimensional_signature": "[_UFOR_] = [_UMAS_][ULEN][UTIM]^-2",
+  "dimensional_signature": "[_UFOR_] = [_UMAS_][_ULEN_][_UTIM_]^-2",
   "hash": "e5f6g7h8...",
   "verification_status": "verified"
 }
 ```
 
 ### Example 3: The Schrödinger Equation
-
 **Original LaTeX:**
 ```latex
 i\hbar \frac{\partial}{\partial t} \Psi(\vec{r},t) = \hat{H} \Psi(\vec{r},t)
 ```
-
 **USS Encoding:**
 ```
-_MIMG_ * _MBOL_ * _MDER_(_mpsi_, _UTIM_) = _MHAM_ * _mpsi_
-; _mpsi_ ∈ _MHIL_
+_MCIM_ * _MCHB_ * _MDER_(_pvrp_(_MVEC_(_pvrr_), _pvrt_), _pvrt_) = _POHM_(_pvrp_(_MVEC_(_pvrr_), _pvrt_))
 ```
+*(Where `_MCIM_` is Math Constant IMaginary, `_MCHB_` is Math Constant H-Bar, `_pvrp_` is Physics Variable Psi [p phonetic], `_pvrr_` is Physics Variable Radius/Rho [r], `_pvrt_` is Physics Variable time [t], and `_POHM_` is Physics Operator HaMiltonian)*
 
 **Database Entry:**
 ```json
 {
   "eq_id": "550e8400-e29b-41d4-a716-446655440002",
   "name": "Time-Dependent Schrödinger Equation",
-  "uss_form": "_MIMG_ * _MBOL_ * _MDER_(_mpsi_, _UTIM_) = _MHAM_ * _mpsi_",
-  "latex_form": "i\hbar \frac{\partial}{\partial t} \Psi(\vec{r},t) = \hat{H} \Psi(\vec{r},t)",
+  "uss_form": "_MCIM_ * _MCHB_ * _MDER_(_pvrp_(_MVEC_(_pvrr_), _pvrt_), _pvrt_) = _POHM_(_pvrp_(_MVEC_(_pvrr_), _pvrt_))",
+  "latex_form": "i\\hbar \\frac{\\partial}{\\partial t} \\Psi(\\vec{r},t) = \\hat{H} \\Psi(\\vec{r},t)",
   "origin_branch": "P",
   "mathematical_domain": "Quantum Mechanics",
   "dimensional_signature": "[_UENE_] = [_UENE_]",
@@ -524,51 +586,49 @@ _MIMG_ * _MBOL_ * _MDER_(_mpsi_, _UTIM_) = _MHAM_ * _mpsi_
 ```
 
 ### Example 4: Maxwell's Equations (Gauss's Law)
-
 **Original LaTeX:**
 ```latex
 \nabla \cdot \vec{E} = \frac{\rho}{\varepsilon_0}
 ```
-
 **USS Encoding:**
 ```
-_MDIV_(_vec_E_) = _mvar_rho_ / _MEPR_
+_MDIV_(_MVEC_(_pvre_)) = _pvrr_ / _MCEP_
 ```
+*(Where `_pvre_` is Physics Variable Electric field [E], `_pvrr_` is Physics Variable Rho [r], `_MCEP_` is Math Constant EPsilon zero)*
 
 **Database Entry:**
 ```json
 {
   "eq_id": "550e8400-e29b-41d4-a716-446655440003",
   "name": "Gauss's Law (Maxwell Equation 1)",
-  "uss_form": "_MDIV_(_vec_E_) = _mvar_rho_ / _MEPR_",
-  "latex_form": "\nabla \cdot \vec{E} = \frac{\rho}{\varepsilon_0}",
+  "uss_form": "_MDIV_(_MVEC_(_pvre_)) = _pvrr_ / _MCEP_",
+  "latex_form": "\\nabla \\cdot \\vec{E} = \\frac{\\rho}{\\varepsilon_0}",
   "origin_branch": "P",
   "mathematical_domain": "Electromagnetism",
-  "dimensional_signature": "[_UCUR_][ULEN]^-2 = [_UCUR_][ULEN]^-2",
+  "dimensional_signature": "[_UCUR_][_ULEN_]^-2 = [_UCUR_][_ULEN_]^-2",
   "hash": "m3n4o5p6...",
   "verification_status": "verified"
 }
 ```
 
 ### Example 5: The Chain Rule
-
 **Original LaTeX:**
 ```latex
 \frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)
 ```
-
 **USS Encoding:**
 ```
-_MDER_(_fun_(_fun_(_mvar_)), _mvar_) = _MDER_(_fun_, _fun_(_mvar_)) * _MDER_(_fun_, _mvar_)
+_MDER_(_mvrf_(_mvrg_(_mvrx_)), _mvrx_) = _MDER_(_mvrf_, _mvrg_(_mvrx_)) * _MDER_(_mvrg_, _mvrx_)
 ```
+*(Where `_mvrf_` is Math Variable Function f, and `_mvrg_` is Math Variable Function g)*
 
 **Database Entry:**
 ```json
 {
   "eq_id": "550e8400-e29b-41d4-a716-446655440004",
   "name": "Chain Rule",
-  "uss_form": "_MDER_(_fun_(_fun_(_mvar_)), _mvar_) = _MDER_(_fun_, _fun_(_mvar_)) * _MDER_(_fun_, _mvar_)",
-  "latex_form": "\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)",
+  "uss_form": "_MDER_(_mvrf_(_mvrg_(_mvrx_)), _mvrx_) = _MDER_(_mvrf_, _mvrg_(_mvrx_)) * _MDER_(_mvrg_, _mvrx_)",
+  "latex_form": "\\frac{d}{dx}f(g(x)) = f'(g(x)) \\cdot g'(x)",
   "origin_branch": "M",
   "mathematical_domain": "Calculus",
   "dimensional_signature": "dimensionless",
@@ -593,7 +653,7 @@ The structured nature of USS enables:
 
 ## 21. Conclusion
 
-The Unified Symbol System (USS) is a rigorous, machine-first symbolic language designed to encode the foundational equations of all sciences in an unambiguous, queryable, and cross-branch-compatible format. With formal grammar, locked registries, multi-layer verification, and SQL-native storage, USS transforms scientific notation from a human convenience into a machine-tractable infrastructure.
+The Unified Symbol System (USS) is a rigorous, machine-first symbolic language designed to encode the foundational equations of all sciences in an unambiguous, queryable, and cross-branch-compatible format. With strict 4-letter token enforcement, mnemonic variable mapping, explicit diacritical and enumeration rules, formal grammar, locked registries, multi-layer verification, and SQL-native storage, USS transforms scientific notation from a human convenience into a machine-tractable infrastructure.
 
 The project is scoped, actionable, and backed by a clear 12-month implementation roadmap. The pilot examples demonstrate feasibility. The validation suite ensures quality. The intellectual property strategy balances openness for adoption with protection for value.
 
@@ -601,7 +661,7 @@ USS is not merely a notation system. It is the **foundation layer for the next g
 
 ---
 
-*End of Report — Unified Symbol System Project v1.1*  
+*End of Report — Unified Symbol System Project v1.4*  
 *Author: Tarek Mohammed Nasser*  
 *Email: malikao@gmail.com*  
 *Date: 2026-05-25*
